@@ -8,4 +8,6 @@
 	<WSkey>CXf2yzVy7WgxB4capeM4gUoExUlFv8Fz0ziH93kGUmki</WSkey>
 	<WSversion>2018-11-08</WSversion>
 	<WSurl>https://gateway.watsonplatform.net/assistant/api</WSurl>
+	<textBackground>testground.jpg</textBackground>
+	<buttonIcon>icon.png</buttonIcon>
 </setting>

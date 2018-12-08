@@ -21,6 +21,8 @@ public class XML {
 	public static String WSkey;
 	public static String WSversion;
 	public static String WSurl;
+	public static String textBackground;
+	public static String buttonIcon;
 	
 	public static void InitSetting(){
 		try {
@@ -56,6 +58,10 @@ public class XML {
 						WSversion = text;
 					else if(childElement.getTagName().equals("WSurl"))
 						WSurl = text;
+					else if(childElement.getTagName().equals("textBackground"))
+						textBackground = text;
+					else if(childElement.getTagName().equals("buttonIcon"))
+						buttonIcon = text;
 					
 				}
 			}
