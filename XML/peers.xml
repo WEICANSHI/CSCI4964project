@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<peers>
+	<node>
+		<id>flyingpig</id>
+		<port>12220</port>
+		<ip>192.168.1.8</ip>
+	</node>
+	<node>
+		<id>littlechiken</id>
+		<port>12227</port>
+		<ip>192.168.2.12</ip>
+	</node>
+</peers>

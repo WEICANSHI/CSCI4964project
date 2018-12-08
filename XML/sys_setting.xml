@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<setting>
+	<ImageDir>./Image/</ImageDir>
+	<XMLDir>./XML/</XMLDir>
+	<ZipDir>./Zip/</ZipDir>
+	<IRkey>{your api key here}</IRkey>
+	<IRversion>2018-03-19</IRversion>
+	<WSkey>CXf2yzVy7WgxB4capeM4gUoExUlFv8Fz0ziH93kGUmki</WSkey>
+	<WSversion>2018-11-08</WSversion>
+	<WSurl>https://gateway.watsonplatform.net/assistant/api</WSurl>
+</setting>
