@@ -32,8 +32,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.AbstractBorder;
 
+import API.WatsonConnector;
+
 @SuppressWarnings("serial")
 public class TextBox extends JPanel {
+	private WatsonConnector wtcon;
 	private Image background;
 	private TextBox self = this;
 	private JTextField typefile;
@@ -42,6 +45,7 @@ public class TextBox extends JPanel {
 	private int sY = 50;
 	
 	public TextBox() {
+		wtcon = WatsonConnector.Connect();
 		this.SetComponent();
 		this.addListener();
 		messages = new ArrayList<Message>();
@@ -93,6 +97,21 @@ public class TextBox extends JPanel {
 		}
 	}
 	
+	public void input() {
+		String in = WatsonConnector.runwaive();
+		Message message = new Message(sY, 0, in);
+		messages.add(message);
+		sY += getTextHeight(in) * 2;
+		self.repaint();
+		
+		String wmessage = wtcon.sendMessage(in, 0);
+		Message wMmessage = new Message(sY, 1, wmessage);
+		WatsonConnector.runpy(wmessage);
+		messages.add(wMmessage);
+		sY += getTextHeight(typefile.getText()) * 2;
+		self.repaint();
+	}
+	
 	private void addListener() {
 		send.addActionListener(new ActionListener() {
 			@Override
@@ -102,6 +121,13 @@ public class TextBox extends JPanel {
 					messages.add(message);
 					sY += getTextHeight(typefile.getText()) * 2;
 					typefile.setText("");
+					self.repaint();
+					
+					String wmessage = wtcon.sendMessage(typefile.getText(), 0);
+					Message wMmessage = new Message(sY, 1, wmessage);
+					WatsonConnector.runpy(wmessage);
+					messages.add(wMmessage);
+					sY += getTextHeight(typefile.getText()) * 2;
 					self.repaint();
 				}
 			}

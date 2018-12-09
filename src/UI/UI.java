@@ -15,8 +15,13 @@ public class UI extends JFrame{
 		this.pack();
 	}
 	
+	public void input() {
+		textbox.input();
+	}
+	
 	public static void main(String args[]) {
 		XML.InitSetting();
-		new UI();
+		UI u = new UI();
+		//u.input();
 	}
 }

@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "alternatives": [
+        {
+          "transcript": "hello how's your day ",
+          "confidence": 0.679,
+          "word_confidence": [
+            [
+              "hello",
+              0.995
+            ],
+            [
+              "how's",
+              0.39
+            ],
+            [
+              "your",
+              0.767
+            ],
+            [
+              "day",
+              0.513
+            ]
+          ],
+          "timestamps": [
+            [
+              "hello",
+              0.97,
+              1.58
+            ],
+            [
+              "how's",
+              1.63,
+              2.12
+            ],
+            [
+              "your",
+              2.12,
+              2.3
+            ],
+            [
+              "day",
+              2.3,
+              2.7
+            ]
+          ]
+        }
+      ],
+      "final": true
+    }
+  ],
+  "result_index": 0
+}
