@@ -42,7 +42,6 @@ public class Requester {
 			//input = new Scanner(System.in);
 			PrintWriter out = new PrintWriter(new OutputStreamWriter(outStream, "UTF-8"), true);
 			out.println(message);	// send the message out
-			
 			// close the connection and writer
 			socket.close();
 			in.close();

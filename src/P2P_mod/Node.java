@@ -3,13 +3,17 @@ package P2P_mod;
 import java.util.Iterator;
 import java.util.Map;
 
+import UI.UI;
+
 public class Node {
 	private Reciever reciever;
 	private Requester requester;
+	private UI ref;
 	
-	public Node() {
+	public Node(UI ref) {
 		Syslog.Init();
-		reciever = new Reciever(Syslog.port);
+		this.ref = ref;
+		reciever = new Reciever(Syslog.port, ref);
 		new Thread(reciever).start();
 	}
 	

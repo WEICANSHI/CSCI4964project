@@ -9,6 +9,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
+import UI.UI;
+
 
 /**
  * @author canshi wei
@@ -20,13 +22,15 @@ public class Reciever implements Runnable{
 	private int port;	// the port number of the Receiver
 	private Socket incoming; // incoming socket
 	private ServerSocket server; // server socket
+	private UI ref;
 	
 	/**
 	 * Constructor: initialize the receiver and start to listen using one thread
 	 * @param port
 	 * @param logger
 	 */
-	public Reciever(int port) {
+	public Reciever(int port, UI ref) {
+		this.ref = ref;
 		this.port = port;		// port number
 		
 	}
@@ -104,7 +108,7 @@ public class Reciever implements Runnable{
 		 * @param output: the message received
 		 */
 		public void event(String output) {
-				System.out.println(">>>>>" + output);
+			ref.control.setWarning(output);
 		}
 	}
 }

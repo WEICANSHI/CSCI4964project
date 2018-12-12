@@ -8,16 +8,16 @@ import Component.XML;
 import P2P_mod.Node;
 
 public class UI extends JFrame{
-	private TextBox textbox;
-	private ControlPan control;
-	private JSplitPane splitPane;
-	private Node node;
+	public TextBox textbox;
+	public ControlPan control;
+	public JSplitPane splitPane;
+	public Node node;
 	
 	public UI() {
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		node = new Node();
+		node = new Node(this);
 		control = new ControlPan(this);
 		textbox = new TextBox();
 		splitPane = new JSplitPane(SwingConstants.VERTICAL, textbox, null);

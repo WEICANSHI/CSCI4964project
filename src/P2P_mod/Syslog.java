@@ -34,6 +34,10 @@ public class Syslog {
 		Syslog.InitPeers();
 	}
 	
+	public static void main(String args[]) {
+		XML.InitSetting();
+		Syslog.Init();
+	}
 	private static void InitPeers() {
 		peers = new HashMap<String, Header>();
 		try {
@@ -57,13 +61,15 @@ public class Syslog {
 					for(int j = 0; j < gchildren.getLength(); j++) {
 						Node gchild = gchildren.item(j);
 						if(gchild instanceof Element) {
-							Text textNode = (Text) childElement.getFirstChild();
+							Element gchildElement = (Element) gchild;
+							Text textNode = (Text) gchildElement.getFirstChild();
 							String text = textNode.getData().trim();
-							if(childElement.getTagName().equals("id"))
+							System.out.println(text);
+							if(gchildElement.getTagName().equals("id"))
 								sid = text;
-							else if(childElement.getTagName().equals("ip")) {
+							else if(gchildElement.getTagName().equals("ip")) {
 								sip = text;
-							}else if(childElement.getTagName().equals("port")) {
+							}else if(gchildElement.getTagName().equals("port")) {
 								sport = Integer.parseInt(text.trim());
 							}
 						}
@@ -116,7 +122,7 @@ public class Syslog {
 				Transformer t = TransformerFactory.newInstance().newTransformer();
 				t.setOutputProperty(OutputKeys.INDENT, "yes");
 				t.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-				t.transform(new DOMSource(doc), new StreamResult(new File("./setting.xml")));
+				t.transform(new DOMSource(doc), new StreamResult(new File("./" + XML.XMLDir + "/net_setting.xml")));
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

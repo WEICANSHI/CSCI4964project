@@ -2,7 +2,7 @@
 <peers>
 	<node>
 		<id>flyingpig</id>
-		<port>12220</port>
+		<port>12221</port>
 		<ip>192.168.1.8</ip>
 	</node>
 </peers>

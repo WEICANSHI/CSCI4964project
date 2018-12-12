@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 
+import API.PyRun;
+
 @SuppressWarnings("serial")
 public class ControlPan extends JPanel implements MouseListener{
 	public UI ref;
@@ -28,6 +30,14 @@ public class ControlPan extends JPanel implements MouseListener{
 		this.add(test02);
 		test01.addMouseListener(this);
 		test02.addMouseListener(this);
+		this.addMouseListener(this);
+	}
+	
+	public void setWarning(String warning) {
+		this.warning = warning;
+		String trans = warning.replace(" ", "_");
+		PyRun.textToSpeach(trans);
+		this.repaint();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -44,7 +54,7 @@ public class ControlPan extends JPanel implements MouseListener{
 			g2.setColor(Color.GREEN);
 			Font font = new Font("Tahoma", Font.PLAIN, 30);
 			g2.setFont(font);
-			g2.drawString(warning, this.getWidth() * 2 / 5, this.getHeight() / 4);
+			g2.drawString(warning, this.getWidth() / 5, this.getHeight() / 4);
 		}
 	}
 
@@ -62,7 +72,14 @@ public class ControlPan extends JPanel implements MouseListener{
 			}
 		}
 		if(e.getSource() == test02) {
-			ref.getMessage("dangerous! Speed down!");
+			ref.getMessage("dangerous! Slow down!");
+		}
+		//this.getWidth() / 15, this.getHeight() / 10, 
+		//this.getWidth() - this.getWidth() * 2 / 15, this.getHeight() / 2, true
+		if(e.getX() > this.getWidth() / 15 && e.getX() < this.getWidth() / 15 + this.getWidth() - this.getWidth() * 2 / 15
+			&& e.getY() > this.getHeight() / 10 && e.getY() < this.getHeight() / 10 + this.getHeight() / 2) {
+			this.warning = null;
+			this.repaint();
 		}
 	}
 

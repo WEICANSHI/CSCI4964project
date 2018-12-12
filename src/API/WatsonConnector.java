@@ -1,10 +1,6 @@
 package API;
 
 import Component.XML;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import com.ibm.watson.developer_cloud.assistant.v2.Assistant;
@@ -103,6 +99,7 @@ public class WatsonConnector {
 		
 		while(true) {
 			System.out.println("type: ");
+			@SuppressWarnings("resource")
 			Scanner scan = new Scanner(System.in);
 			String mess = scan.next();
 			String ret = wc.sendMessage(mess, 0);
