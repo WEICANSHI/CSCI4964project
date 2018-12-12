@@ -1,5 +1,8 @@
 package P2P_mod;
 
+import java.util.Iterator;
+import java.util.Map;
+
 public class Node {
 	private Reciever reciever;
 	private Requester requester;
@@ -17,6 +20,14 @@ public class Node {
 		requester.sendMessage(message);
 	}
 	
+	public void sendAll(String message) {
+		Iterator<Map.Entry<String, Header>> itr = Syslog.peers.entrySet().iterator();
+		while(itr.hasNext()) {
+			Map.Entry<String, Header> tmp = itr.next();
+			this.sendMessage(tmp.getKey(), message);
+		}
+	}
+	
 	public void addPeer(String id, String ip, int port) {
 		
 	}
@@ -25,8 +36,4 @@ public class Node {
 		
 	}
 	
-	public static void main(String args[]) {
-		Node node = new Node();
-		//node.sendMessage();
-	}
 }

@@ -21,6 +21,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 
+import Component.XML;
+
 public class Syslog {
 	public static String id;
 	public static String ip;
@@ -37,7 +39,7 @@ public class Syslog {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(new File("./peers.xml"));
+			Document doc = builder.parse(new File("./" + XML.XMLDir + "/peers.xml"));
 			Element rootElement = doc.getDocumentElement();
 			// assert the setting is correct
 			assert(rootElement.getTagName().equals("peers"));
@@ -84,7 +86,7 @@ public class Syslog {
 		try {
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(new File("./net_setting.xml"));
+			Document doc = builder.parse(new File("./" + XML.XMLDir + "/net_setting.xml"));
 			Element rootElement = doc.getDocumentElement();
 			// assert the setting is correct
 			assert(rootElement.getTagName().equals("setting"));

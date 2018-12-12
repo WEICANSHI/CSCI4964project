@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
@@ -32,10 +34,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.AbstractBorder;
 
+import API.PyRun;
 import API.WatsonConnector;
 
 @SuppressWarnings("serial")
-public class TextBox extends JPanel {
+public class TextBox extends JPanel implements MouseListener{
 	private WatsonConnector wtcon;
 	private Image background;
 	private TextBox self = this;
@@ -51,6 +54,7 @@ public class TextBox extends JPanel {
 		messages = new ArrayList<Message>();
 		background = Parser.readImage(XML.imageDir + XML.textBackground);
 		this.setPreferredSize(new Dimension(500, 700));
+		this.addMouseListener(this);
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -60,6 +64,7 @@ public class TextBox extends JPanel {
 		send.setBounds(this.getWidth() / 20 + this.getWidth() * 9 / 12, this.getHeight() * 9 / 10,
 				this.getHeight() / 10, this.getHeight() / 15);
 		g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
+		drawCleaner(g);
 		for(int i = 0; i < messages.size(); i ++) {
 			drawBubble(g, messages.get(i).text, messages.get(i).y, messages.get(i).direction);
 		}
@@ -71,6 +76,11 @@ public class TextBox extends JPanel {
 		Font font = new Font("Tahoma", Font.PLAIN, 20);
 		int textheight = (int)(font.getStringBounds(text, frc).getHeight());
 		return textheight;
+	}
+	
+	public void drawCleaner(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		g2.draw3DRect(this.getWidth() / 50, this.getWidth() / 50, 10, 10, true);
 	}
 	
 	public void drawBubble(Graphics g, String text, int sY, int direction) {
@@ -98,7 +108,7 @@ public class TextBox extends JPanel {
 	}
 	
 	public void input() {
-		String in = WatsonConnector.runwaive();
+		String in = PyRun.runwaive();
 		Message message = new Message(sY, 0, in);
 		messages.add(message);
 		sY += getTextHeight(in) * 2;
@@ -106,7 +116,7 @@ public class TextBox extends JPanel {
 		
 		String wmessage = wtcon.sendMessage(in, 0);
 		Message wMmessage = new Message(sY, 1, wmessage);
-		WatsonConnector.runpy(wmessage);
+		PyRun.textToSpeach(wmessage);
 		messages.add(wMmessage);
 		sY += getTextHeight(typefile.getText()) * 2;
 		self.repaint();
@@ -120,14 +130,14 @@ public class TextBox extends JPanel {
 					Message message = new Message(sY, 0, typefile.getText());
 					messages.add(message);
 					sY += getTextHeight(typefile.getText()) * 2;
-					typefile.setText("");
 					self.repaint();
 					
 					String wmessage = wtcon.sendMessage(typefile.getText(), 0);
 					Message wMmessage = new Message(sY, 1, wmessage);
-					WatsonConnector.runpy(wmessage);
+					PyRun.textToSpeach(wmessage);
 					messages.add(wMmessage);
 					sY += getTextHeight(typefile.getText()) * 2;
+					typefile.setText("");
 					self.repaint();
 				}
 			}
@@ -159,6 +169,41 @@ public class TextBox extends JPanel {
 		};
 		this.add(typefile);
 		this.add(send);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		//g2.draw3DRect(this.getWidth() / 50, this.getWidth() / 50, 10, 10, true);
+		if(e.getX() > this.getWidth() / 50 && e.getY() > this.getWidth() / 50
+				&& e.getX() < this.getWidth() / 50 + 10 && e.getY() < this.getWidth() / 50 + 10 ) {
+			messages.clear();
+			sY = 50;
+			this.repaint();
+		}
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 
@@ -207,6 +252,6 @@ class Message{
 	public Message(int y, int direction, String text) {
 		this.y = y;
 		this.direction = direction;
-		this.text = text;
+		this.text = text.replace('_', ' ');
 	}
 }

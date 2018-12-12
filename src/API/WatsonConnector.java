@@ -36,6 +36,14 @@ public class WatsonConnector {
 		System.out.println("success");
 	}
 	
+	public static WatsonConnector Connect() {
+		WatsonConnector wc = new WatsonConnector();
+		String ret = wc.createSession();
+		WatsonConnector.parseSession(wc, ret);
+		System.out.println(wc.sessionId);
+		return wc;
+	}
+	
 	public String createSession() {
 		Assistant service = new Assistant(version, options);
 		CreateSessionOptions options = new CreateSessionOptions.Builder(assid).build();
@@ -46,6 +54,7 @@ public class WatsonConnector {
 	
 	
 	public String sendMessage(String mes, int counter) {
+		if(counter >= 2) return null;
 		try {
 			MessageInput input = new MessageInput.Builder()
 					  .messageType("text")
@@ -76,14 +85,7 @@ public class WatsonConnector {
 		}
 		return null;
 	}
-	
-	public static WatsonConnector Connect() {
-		WatsonConnector wc = new WatsonConnector();
-		String ret = wc.createSession();
-		WatsonConnector.parseSession(wc, ret);
-		System.out.println(wc.sessionId);
-		return wc;
-	}
+
 	
 	public static void parseSession(WatsonConnector wc, String ret) {
 		int id = ret.indexOf(':');
@@ -93,90 +95,19 @@ public class WatsonConnector {
 		int end = ret.indexOf('\"');
 		wc.sessionId = ret.substring(0, end);
 	}
-	
-	public static String runwaive() {
-		String s = null;
 
-        try {
-            
-	    // run the Unix "ps -ef" command
-            // using the Runtime exec method:
-            Process p = Runtime.getRuntime().exec("python ./py/st.py ");
-            
-            BufferedReader stdInput = new BufferedReader(new 
-                 InputStreamReader(p.getInputStream()));
-
-            BufferedReader stdError = new BufferedReader(new 
-                 InputStreamReader(p.getErrorStream()));
-
-            // read the output from the command
-            System.out.println("Here is the standard output of the command:\n");
-            while ((s = stdInput.readLine()) != null) {
-                return s;
-            } 
-            
-            // read any errors from the attempted command
-//            System.out.println("Here is the standard error of the command (if any):\n");
-//            while ((s = stdError.readLine()) != null) {
-//                System.out.println(s);
-//            }
-        }
-        catch (IOException e) {
-            System.out.println("exception happened - here's what I know: ");
-            e.printStackTrace();
-            System.exit(-1);
-        }
-        return null;
-	}
-	
-	public static void runpy(String text) {
-		String s = null;
-
-        try {
-            
-	    // run the Unix "ps -ef" command
-            // using the Runtime exec method:
-            Process p = Runtime.getRuntime().exec("python ./py/textsp.py " + text);
-            
-            BufferedReader stdInput = new BufferedReader(new 
-                 InputStreamReader(p.getInputStream()));
-
-            BufferedReader stdError = new BufferedReader(new 
-                 InputStreamReader(p.getErrorStream()));
-
-            // read the output from the command
-            System.out.println("Here is the standard output of the command:\n");
-            while ((s = stdInput.readLine()) != null) {
-                System.out.println(s);
-            }
-            
-            // read any errors from the attempted command
-            System.out.println("Here is the standard error of the command (if any):\n");
-            while ((s = stdError.readLine()) != null) {
-                System.out.println(s);
-            }
-            
-           
-        }
-        catch (IOException e) {
-            System.out.println("exception happened - here's what I know: ");
-            e.printStackTrace();
-            System.exit(-1);
-        }
-	}
 	public static void main(String args[]) {
 		XML.InitSetting();
-//		WatsonConnector wc = WatsonConnector.Connect();
-//		
-//		
-//		while(true) {
-//			System.out.println("type: ");
-//			Scanner scan = new Scanner(System.in);
-//			String mess = scan.next();
-//			String ret = wc.sendMessage(mess, 0);
-//			WatsonConnector.runpy(ret);
-//		}
-		WatsonConnector.runwaive();
+		WatsonConnector wc = WatsonConnector.Connect();
+		
+		
+		while(true) {
+			System.out.println("type: ");
+			Scanner scan = new Scanner(System.in);
+			String mess = scan.next();
+			String ret = wc.sendMessage(mess, 0);
+			PyRun.textToSpeach(ret);
+		}
 		
 	}
 }
